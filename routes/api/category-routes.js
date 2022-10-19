@@ -15,16 +15,21 @@ const db = mysql.createConnection(
 
 // The `/api/categories` endpoint
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   // find all categories
   // be sure to include its associated Products
-  const categories = Category.findAll();
+  const categories = await Category.findAll();
   res.json(categories);
+  // db.query("SELECT product.id AS product_id, product.category_id")
 });
 
 router.get("/:id", (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
+  Category.findByPk(req.params.id).then((category) => {
+    res.json(category);
+  });
+  // db.query(`SELECT product.id AS product_id, product.category_id WHERE category_id = ${req.params.id}`)
 });
 
 router.post("/", (req, res) => {
