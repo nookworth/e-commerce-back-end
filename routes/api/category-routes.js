@@ -9,6 +9,7 @@ const db = mysql.createConnection(
     // MySQL password
     password: process.env.DB_PASSWORD,
     database: "ecommerce_db",
+    rowsAsArray: true,
   },
   console.log(`Connected to the ecommerce_db database.`)
 );
@@ -18,18 +19,17 @@ const db = mysql.createConnection(
 router.get("/", async (req, res) => {
   // find all categories
   // be sure to include its associated Products
-  const categories = await Category.findAll();
-  res.json(categories);
-  // db.query("SELECT product.id AS product_id, product.category_id")
+  Category.findAll({include: [Product]}).then((categories) => {
+    res.json(categories);
+  })
 });
 
 router.get("/:id", (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
-  Category.findByPk(req.params.id).then((category) => {
+  Category.findOne({where: {id:req.params.id}, include: [Product]}).then((category) => {
     res.json(category);
   });
-  // db.query(`SELECT product.id AS product_id, product.category_id WHERE category_id = ${req.params.id}`)
 });
 
 router.post("/", (req, res) => {
