@@ -1,4 +1,4 @@
-# E-commerce-database
+# E-commerce-backend
 
 ## Video Walkthrough: https://drive.google.com/file/d/1gFjjX9-vBiM0ZEB6FBLv1t4LnjpKy-tw/view
 
